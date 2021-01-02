@@ -1,0 +1,19 @@
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+
+# Intellij
+.idea/
+*.iml
+*.iws
+lib/
+
+# Maven
+log/
+target/
+
+# For my local copy of SVN branch
+.svn/
