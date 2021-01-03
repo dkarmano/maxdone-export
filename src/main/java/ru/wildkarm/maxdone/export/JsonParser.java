@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JsonParser {
 
-    public static <T, R> TypeToken<?> buildType(Type mainClass, Type... paramClasses) {
+    public static TypeToken<?> buildType(Type mainClass, Type... paramClasses) {
         return TypeToken.getParameterized(mainClass, paramClasses);
     }
 
@@ -36,7 +36,7 @@ public class JsonParser {
         log.warn("desJson START for file  {}", file);
 
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(LocalDateTime.class, OFSET_DESERIALIZER);
+        builder.registerTypeAdapter(LocalDateTime.class, OFFSET_DESERIALIZER);
         Gson gson = builder.create();
         
         Optional<T> resObj = Optional.empty();
@@ -49,8 +49,8 @@ public class JsonParser {
             log.error("desJson Reader ERROR: ", e);
         }
 
-        log.info("desJson succseed = {}\n\n", resObj);
-        return resObj.orElseThrow(() -> new FileNotFoundException());
+        log.info("desJson succeed = {}\n\n", resObj);
+        return resObj.orElseThrow(FileNotFoundException::new);
     }
 
     public static <T> T parseJsonSimple(String input, Type mainClass, Type... paramClasses) {
@@ -97,11 +97,10 @@ public class JsonParser {
             .appendLiteral("+0000")
             .parseStrict().toFormatter();
 
-    public static final JsonSerializer<LocalDateTime> OFSET_SERIALIZER = (src, typeOfSrc, context) -> {
-        return src == null ? null : new JsonPrimitive(src.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
-    };
+    public static final JsonSerializer<LocalDateTime> OFFSET_SERIALIZER =
+            (src, typeOfSrc, context) -> src == null ? null : new JsonPrimitive(src.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
-    public static final JsonDeserializer<LocalDateTime> OFSET_DESERIALIZER = (json, typeOfT, context) -> {
+    public static final JsonDeserializer<LocalDateTime> OFFSET_DESERIALIZER = (json, typeOfT, context) -> {
         JsonPrimitive jsonPrimitive = json.getAsJsonPrimitive();
 
         try {

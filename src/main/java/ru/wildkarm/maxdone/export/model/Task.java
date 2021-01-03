@@ -85,7 +85,7 @@ public class Task {
     
     transient private Context categoryObject;
     
-    public String getRealCategoty() {
+    public String getRealCategory() {
         return Optional.ofNullable(categoryId).orElse("")
                 .strip()
                 .replace(",", "")

@@ -1,0 +1,64 @@
+[
+  {
+    "id": "5dd2491be4b01022be0606bc",
+    "ct": "2019-11-18T07:32:43.061+0000",
+    "mt": "2020-01-22T08:42:07.245+0000",
+    "cb": "5823150fe4b0d1f67b0b6d3e",
+    "mb": "5823150fe4b0d1f67b0b6d3e",
+    "owners": [
+      "5823150fe4b0d1f67b0b6d3e"
+    ],
+    "title": "Освоить джедайскую технику",
+    "description": "Этот шаблон служит для помощи в освоении джедайских техник – сплава знаний, навыков и умений, позволяющих успевать больше, уставать меньше и при этом еще и практически перестать нервничать.<br /><br />Чтобы ознакомиться с основами джедайских техник посмотрите это видео: <div><a target=\"_blank\"  href=\"http://www.youtube.com/watch?v=jt3_sq8LQYM\">http://www.youtube.com/watch?v=jt3_sq8LQYM </a></div><br />О том, почему нужно осваивать джедайские техники даются намеки вот в этом видео: <a target=\"_blank\"  href=\"https://www.youtube.com/watch?v=RbOkgLa1XjM\">https://www.youtube.com/watch?v=RbOkgLa1XjM</a><br /> ",
+    "status": "postponed",
+    "startPeriod": "2019-11-18T21:00:00.000+0000",
+    "endPeriod": "2020-01-01T21:00:00.000+0000",
+    "responsibleId": "5823150fe4b0d1f67b0b6d3e",
+    "iconUrl": "/static/img/goal-icons/default.jpg",
+    "limitedGraphAccess": false,
+    "goalTemplateId": "59154c6ee4b09980d4d074a6",
+    "goalTemplateVersion": 0,
+    "goalInfoMap": {
+      "showHierarchy": false,
+      "showMilestones": false,
+      "showKeyResults": false,
+      "showGoalTemplateInfo": false,
+      "showContributors": false
+    },
+    "responsible": {
+      "id": "5823150fe4b0d1f67b0b6d3e",
+      "username": "dkarm@list.ru",
+      "firstName": "dkarm",
+      "email": "dkarm@list.ru",
+      "pictureUrl": "",
+      "enabled": true,
+      "emailNotificationPreferences": {
+        "ACTION": true
+      },
+      "additionalInfo": {
+        "ADDITIONAL_INFO_VK": "",
+        "ADDITIONAL_INFO_DESCRIPTION": "",
+        "ADDITIONAL_INFO_LINKEDIN": "",
+        "ADDITIONAL_INFO_FACEBOOK": "",
+        "ADDITIONAL_INFO_SKYPE": "",
+        "ADDITIONAL_INFO_SKIN": "ball"
+      },
+      "accountNonExpired": true,
+      "accountNonLocked": true,
+      "credentialsNonExpired": true
+    },
+    "shared": false,
+    "prefChildCreateShared": true,
+    "searchMeta": {
+      "searchFields": [
+        "description",
+        "title"
+      ],
+      "objectType": [
+        "PrivateGoal"
+      ]
+    },
+    "blockedByGoalTemplate": true,
+    "archived": false
+  }
+]

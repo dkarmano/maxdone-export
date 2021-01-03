@@ -1,0 +1,38 @@
+[
+  {
+    "id": "5dd232b1e4b01022be05fa77",
+    "ct": "2019-11-18T05:57:05.752+0000",
+    "mt": "2019-11-18T13:18:22.321+0000",
+    "cb": "5823150fe4b0d1f67b0b6d3e",
+    "mb": "5823150fe4b0d1f67b0b6d3e",
+    "owners": [
+      "5823150fe4b0d1f67b0b6d3e"
+    ],
+    "path": ",5dcfda78e4b01022be058a05,
+    ",
+    "childrenIds": [],
+    "title": "Купить покрышки",
+    "userId": "5823150fe4b0d1f67b0b6d3e",
+    "timeZone": "Europe/Moscow",
+    "recurExcludeDates": [],
+    "contextId": "5dcfda72e4b01022be0589fd",
+    "taskType": "TODAY",
+    "allDay": true,
+    "state": "ACTIVE",
+    "done": true,
+    "completionDate": "2019-11-18T13:18:22.321+0000",
+    "completedBy": "5823150fe4b0d1f67b0b6d3e",
+    "priority": 205.0,
+    "notes": "",
+    "searchMeta": {
+      "searchFields": [
+        "title"
+      ],
+      "objectType": [
+        "TaskItem"
+      ]
+    },
+    "project": false,
+    "archived": false
+  }
+]

@@ -1,32 +1,18 @@
 package ru.wildkarm.maxdone.export;
 
+import lombok.extern.slf4j.Slf4j;
+import ru.wildkarm.maxdone.export.model.*;
+
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import com.google.gson.reflect.TypeToken;
-
-import lombok.extern.slf4j.Slf4j;
-import ru.wildkarm.maxdone.export.model.ChecklistItem;
-import ru.wildkarm.maxdone.export.model.Context;
-import ru.wildkarm.maxdone.export.model.Project;
-import ru.wildkarm.maxdone.export.model.Task;
-import ru.wildkarm.maxdone.export.model.TaskOutputLine;
 
 @Slf4j
 public class MaxDoneDecomp {
@@ -34,7 +20,7 @@ public class MaxDoneDecomp {
     private String inputPath;
 
     public MaxDoneDecomp(String inputPath) {
-        this.inputPath = inputPath + "\\";
+        this.inputPath = inputPath;
         if (!this.inputPath.endsWith("\\")) {
             this.inputPath += "\\";
         }
@@ -55,20 +41,13 @@ public class MaxDoneDecomp {
         String fileInbox = inputPath + "inbox.json";
         String fileCompleted = inputPath + "completed.json";
 
-        List<Context> contextsList = Collections.emptyList();
-        List<Context> categoriesList = Collections.emptyList();
-        List<Project> projectsList = Collections.emptyList();
-        List<Task> tasksList = Collections.emptyList();
-        List<Task> inboxList = Collections.emptyList();
-        List<Task> completedList = Collections.emptyList();
-
         try {
-            contextsList = JsonParser.desJson(fileContexts, List.class, Context.class);
-            categoriesList = JsonParser.desJson(fileCategories, List.class, Context.class);
-            projectsList = JsonParser.desJson(fileProjects, List.class, Project.class);
-            tasksList = JsonParser.desJson(fileTasks, List.class, Task.class);
-            inboxList = JsonParser.desJson(fileInbox, List.class, Task.class);
-            completedList = JsonParser.desJson(fileCompleted, List.class, Task.class);
+            List<Context> contextsList = JsonParser.desJson(fileContexts, List.class, Context.class);
+            List<Context> categoriesList = JsonParser.desJson(fileCategories, List.class, Context.class);
+            List<Project> projectsList = JsonParser.desJson(fileProjects, List.class, Project.class);
+            List<Task> tasksList = JsonParser.desJson(fileTasks, List.class, Task.class);
+            List<Task> inboxList = JsonParser.desJson(fileInbox, List.class, Task.class);
+            List<Task> completedList = JsonParser.desJson(fileCompleted, List.class, Task.class);
 
             tasksList = updateTaskList(tasksList, contextsList, projectsList, categoriesList);
             inboxList = updateTaskList(inboxList, contextsList, projectsList, categoriesList);
@@ -80,7 +59,7 @@ public class MaxDoneDecomp {
             rows.addAll(outputTaskTable(tasksList));
             rows.addAll(outputTaskTable(completedList));
 
-            wtiteOutputFile(rows, inputPath);
+            writeOutputFile(rows, inputPath);
 
         } catch (Exception e) {
             log.error("process ERROR: ", e);
@@ -138,31 +117,23 @@ public class MaxDoneDecomp {
         return row;
     }
 
-    private void wtiteOutputFile(Iterable<? extends CharSequence> lines, String inputPath) {
-        log.info("wtiteOutputFile START {}", inputPath);
+    private void writeOutputFile(Iterable<? extends CharSequence> lines, String inputPath) {
+        log.info("writeOutputFile START {}", inputPath);
         try {
-
-            Path parentPath = Path.of(
-                    Main.class
-                            .getProtectionDomain()
-                            .getCodeSource()
-                            .getLocation()
-                            .toURI())
-                    .getParent();
-
             DateTimeFormatter fileFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss", Locale.forLanguageTag("ru-RU"));
             String dateSuffix = LocalDateTime.now().format(fileFormatter);
-            Path filePath = Path.of(parentPath.toAbsolutePath().toString(), "output_table_" + dateSuffix + ".csv");
-            log.info("wtiteOutputFile OutputFile path = " + filePath.toFile().getAbsolutePath());
+            Path filePath = Path.of(inputPath, "output_table_" + dateSuffix + ".csv");
+            log.info("writeOutputFile OutputFile path = " + filePath.toFile().getAbsolutePath());
 
             Files.write(filePath, lines, Charset.forName("Windows-1251"),
                     StandardOpenOption.WRITE,
                     StandardOpenOption.TRUNCATE_EXISTING,
                     StandardOpenOption.CREATE);
+
         } catch (Exception e) {
-            log.error("wtiteOutputFile ERROR: ", e);
+            log.error("writeOutputFile ERROR: ", e);
         }
-        log.info("wtiteOutputFile DONE {}", inputPath);
+        log.info("writeOutputFile DONE {}", inputPath);
     }
 
     private List<Task> updateTaskList(
@@ -171,22 +142,22 @@ public class MaxDoneDecomp {
             List<Project> projectsList,
             List<Context> categoriesList) {
 
-        Map<String, Context> contextMap = contextsList.stream().collect(Collectors.toMap(context -> context.getId(), c -> c));
-        Map<String, Project> projectMap = projectsList.stream().collect(Collectors.toMap(roject -> roject.getId(), c -> c));
-        Map<String, Context> categoriesMap = categoriesList.stream().collect(Collectors.toMap(category -> category.getId(), c -> c));
+        Map<String, Context> contextMap = contextsList.stream().collect(Collectors.toMap(Context::getId, c -> c));
+        Map<String, Project> projectMap = projectsList.stream().collect(Collectors.toMap(Project::getId, c -> c));
+        Map<String, Context> categoriesMap = categoriesList.stream().collect(Collectors.toMap(Context::getId, c -> c));
 
         for (Task task : tasksList) {
             task.setContextObject(contextMap.get(task.getContextId()));
             task.setProjectObject(projectMap.get(task.getGoalId()));
             if (task.getCategoryId() != null && !task.getCategoryId().isBlank()) {
                 String st1 = task.getCategoryId();
-                String st2 = task.getRealCategoty();
-                Context st3 = categoriesMap.get(task.getRealCategoty());
-                log.info("updateTaskList getCategoryId: {} / {} / {}", st1, st2);
+                String st2 = task.getRealCategory();
+                Context st3 = categoriesMap.get(task.getRealCategory());
+                log.info("updateTaskList1 getCategoryId: {} / {} / {}", new String[]{st1, st2, st2});
 
                 if (st3 != null) {
-                    task.setCategoryObject(categoriesMap.get(task.getRealCategoty()));
-                    log.info("updateTaskList getCategoryId: {}", st3.toString());
+                    task.setCategoryObject(categoriesMap.get(task.getRealCategory()));
+                    log.info("updateTaskList2 setCategoryObject: {}", st3.toString());
                 }
             }
         }
@@ -226,12 +197,12 @@ public class MaxDoneDecomp {
         taskOutputLine.setDueTime(formatDateTime(task.getDueDate()));
         taskOutputLine.setCompletionDate(formatDateTime(task.getCompletionDate()));
 
-        taskOutputLine.setContext(Optional.ofNullable(task.getContextObject()).map(m -> m.getTitle()).orElse(""));
-        taskOutputLine.setCategory(Optional.ofNullable(task.getCategoryObject()).map(m -> m.getTitle()).orElse(""));
+        taskOutputLine.setContext(Optional.ofNullable(task.getContextObject()).map(Context::getTitle).orElse(""));
+        taskOutputLine.setCategory(Optional.ofNullable(task.getCategoryObject()).map(Context::getTitle).orElse(""));
         taskOutputLine.setTitle(task.getTitle());
-        taskOutputLine.setProject(Optional.ofNullable(task.getProjectObject()).map(m -> m.getTitle()).orElse(""));
-        taskOutputLine.setProjectDescription(formatNotes(Optional.ofNullable(task.getProjectObject()).map(m -> m.getDescription()).orElse("")));
-        taskOutputLine.setProjectStatus(Optional.ofNullable(task.getProjectObject()).map(m -> m.getStatus()).orElse(""));
+        taskOutputLine.setProject(Optional.ofNullable(task.getProjectObject()).map(Project::getTitle).orElse(""));
+        taskOutputLine.setProjectDescription(formatNotes(Optional.ofNullable(task.getProjectObject()).map(Project::getDescription).orElse("")));
+        taskOutputLine.setProjectStatus(Optional.ofNullable(task.getProjectObject()).map(Project::getStatus).orElse(""));
 
         taskOutputLine.setTaskType(task.getTaskType());
 
@@ -245,7 +216,7 @@ public class MaxDoneDecomp {
     }
 
     private String formatDateTime(LocalDateTime dt) {
-        return Optional.ofNullable(dt).map(m -> JsonParser.READABLE_DATE_TIME_FORMATTER.format(m)).orElse("");
+        return Optional.ofNullable(dt).map(JsonParser.READABLE_DATE_TIME_FORMATTER::format).orElse("");
     }
 
     private String formatCheckList(List<ChecklistItem> checklistItems) {

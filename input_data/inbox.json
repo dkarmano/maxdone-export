@@ -1,0 +1,26 @@
+[
+
+{"id":"5f9fe06fe4b024ce587b1afb",
+"ct":"2020-11-02T10:33:19.835+0000",
+"mt":"2020-11-02T13:06:33.662+0000",
+"cb":"5823150fe4b0d1f67b0b6d3e",
+"mb":"5823150fe4b0d1f67b0b6d3e",
+"owners":["5823150fe4b0d1f67b0b6d3e"],
+"path":",no_project,
+",
+"childrenIds":[],
+"title":"Тестовая заметка",
+"userId":"5823150fe4b0d1f67b0b6d3e",
+"timeZone":"Europe/Moscow",
+"recurExcludeDates":[],
+"taskType":"INBOX",
+"allDay":true,
+"state":"ACTIVE",
+"done":false,
+"priority":1001.0,
+"notes":"",
+"searchMeta":{"searchFields":["title"],
+"objectType":["TaskItem"]},
+"project":false,
+"archived":false}
+]

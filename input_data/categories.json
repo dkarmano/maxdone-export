@@ -1,0 +1,40 @@
+[
+  {
+    "id": "5dcfda78e4b01022be058a05",
+    "ct": "2019-11-16T11:16:08.815+0000",
+    "mt": "2019-11-16T11:16:09.143+0000",
+    "cb": "5823150fe4b0d1f67b0b6d3e",
+    "mb": "5823150fe4b0d1f67b0b6d3e",
+    "owners": [
+      "5823150fe4b0d1f67b0b6d3e"
+    ],
+    "path": "",
+    "childrenIds": [
+      "5dd232b1e4b01022be05fa77",
+      "5dba80fae4b01022be007fb1",
+      "5dba80fae4b01022be007faf",
+      "5dbd95f4e4b01022be0134d9",
+      "5dd1655fe4b01022be05cd9b",
+      "5de54068e4b01022be0a9b2b"
+    ],
+    "title": "_Купить",
+    "userId": "5823150fe4b0d1f67b0b6d3e",
+    "timeZone": "Europe/Moscow",
+    "recurExcludeDates": [],
+    "taskType": "UNDEFINED",
+    "allDay": false,
+    "state": "ACTIVE",
+    "done": false,
+    "priority": 1.0,
+    "searchMeta": {
+      "searchFields": [
+        "title"
+      ],
+      "objectType": [
+        "TaskItem"
+      ]
+    },
+    "project": true,
+    "archived": false
+  }
+]
