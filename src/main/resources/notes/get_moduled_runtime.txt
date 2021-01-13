@@ -1,0 +1,8 @@
+"%JAVA_HOME%/java" --list-modules
+
+cd F:\Work\wk_java\IdeaProjects2020\maxdone_decomp
+
+"%JAVA_HOME%/jdeps" -summary -recursive target/*.jar target/lib/*.jar
+
+"%JAVA_HOME%/jlink" --add-modules java.base,java.desktop,java.management,java.naming,java.sql,java.xml --output runtime
+
